@@ -60,7 +60,7 @@ void insere(Lista *lista, Elemento *pivo, int valor){
 }
 
 int remove(Lista *lista, Elemento *pivo){
-  Elemento *antigo = (Elemento*) malloc (sizeof(Elemento));
+  Elemento *antigo = (Elemento*) malloc(sizeof(Elemento));
   if(lista->size == 0){
     return 1; //retorna lista vazia 
   }
