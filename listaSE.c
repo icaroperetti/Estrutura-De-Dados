@@ -22,7 +22,6 @@ void imprimeLista(Lista *lista);
 int main(){
   Lista *lista = criaLista();
   insere(lista,NULL,10);
-    buscaLista();
     insere(lista,NULL,10);
     //insere(lista,lista->head,20);
     //insere(lista,lista->tail,30);
