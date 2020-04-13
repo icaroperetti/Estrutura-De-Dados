@@ -2,34 +2,61 @@
 #include <stdlib.h>
 
 
-typedef struct sElemento{
-  struct sElemento *next;
-  int dado;
+typedef struct sPessoa{
+    int idade;
+    //char nome[50];
+}Pessoa;
+
+typedef struct sElemento {
+    struct sElemento *next;
+    Pessoa *pessoa;
 } Elemento;
 
-typedef struct sLista{
-  struct sElemento *head;
-  struct sElemento *tail;
-  int size;
+typedef struct sLista {
+    struct sElemento *head;
+    struct sElemento *tail;
+    int size;
 } Lista;
 
 Lista* criaLista();
-void insere(Lista *lista, Elemento *pivo, int valor);
-int remove(Lista *lista, Elemento *pivo);
-void imprimeLista(Lista *lista);
+Pessoa* criaPessoa();
+Elemento* criaElemento(Pessoa*);
+void insereDados(Pessoa*);
+void insereLista(Lista*,Elemento*,Elemento*);
+void imprimeLista(Lista*);
 
 
 int main(){
-  Lista *lista = criaLista();
-  insere(lista,NULL,10);
-    insere(lista,NULL,10);
-    //insere(lista,lista->head,20);
-    //insere(lista,lista->tail,30);
-    //insere(lista,lista->head->next,25);
-    //remove(lista,NULL);
-    //remove(lista,lista->tail);
-    //remove(lista,lista->head);
-    imprimeLista(lista);
+    Lista *lista = criaLista();
+    Pessoa *novaPessoa;
+    Elemento *novoElemento;
+    Elemento *pivo = (Elemento*) malloc(sizeof(Elemento));
+    pivo = NULL;
+
+    int op = 0;
+
+    while(op != 6){
+        printf("Selecione uma opcao:\n ");
+        printf("1 - Inserir\n");
+        printf("2 - Imprimir lista completa\n");
+        scanf("%i", &op);
+
+        if(op  == 6){
+            printf("Programa Finalizado!");
+            break;
+        }
+        if(op == 1){
+            novaPessoa = criaPessoa();
+            novoElemento = criaElemento(novaPessoa);
+            insereLista(lista,pivo,novoElemento);
+        }
+        else if(op == 2 ){
+            imprimeLista(lista);
+        }
+    }
+    free(novoElemento);
+    free(novaPessoa);
+    free(lista);
 }
 
 Lista* criaLista(){
@@ -40,59 +67,59 @@ Lista* criaLista(){
   return lista;
 }
 
-void insere(Lista *lista, Elemento *pivo, int valor){
-  Elemento *novo = (Elemento*) malloc (sizeof(Elemento));
-  novo->dado = valor;
-  if(pivo == NULL){
-    if(lista->size == 0){
-      lista->tail= novo; 
-    }
-    novo->next = lista->head;
-    lista->head = novo;
-  }else{
-    if(pivo->next==NULL){
-      lista->tail = novo;
-    }
-    novo->next = pivo->next;
-    pivo->next = novo;
-  }
-  lista->size++;
+Pessoa* criaPessoa(){
+    Pessoa* pessoa = NULL;
+
+    pessoa = (Pessoa*) malloc(sizeof(Pessoa));
+    insereDados(pessoa);
+    return pessoa;
 }
 
-int remove(Lista *lista, Elemento *pivo){
-  Elemento *antigo = (Elemento*) malloc(sizeof(Elemento));
-  if(lista->size == 0){
-    return 1; //retorna lista vazia 
-  }
-  if(pivo == NULL){
-    antigo = lista->head;
-    lista->head = lista->head->next;
-
-    if(lista->head==NULL){
-      lista->tail = NULL; 
-    }
-  }else{
-    if(pivo->next==NULL){
-      return 2; //retorna fim da lista
-    }
-    antigo = pivo->next;
-    pivo->next = pivo->next->next;
-
-    if(pivo->next==NULL){
-      lista->tail = pivo;
-    }
-  }
-  free(antigo);
-  lista->size--;
+void insereDados(Pessoa* pessoa){
+    printf("Idade: ");
+    scanf("%i",&pessoa->idade);
 }
 
-void imprimeLista(Lista *lista){
-    Elemento *aux=(Elemento*) malloc (sizeof(Elemento));
-    aux=lista->head;
-    int i=0;
-    for(i=0; i<lista->size; i++){
-        printf("%i ",aux->dado);
-        aux=aux->next;
-    }
-} 
+Elemento* criaElemento(Pessoa* pessoa){
+    Elemento *elemento = NULL;
 
+    elemento = (Elemento*) malloc (sizeof(Elemento));
+    elemento->pessoa = pessoa;
+    elemento->next = NULL;
+
+    return elemento;
+}
+
+void insereLista(Lista* lista, Elemento* pivo, Elemento* novo) {
+    if(pivo == NULL) {
+        if(lista->size == 0) {
+            lista->tail = novo;
+            lista->head = novo;
+        } else {
+            novo->next = lista->head;
+            lista->head = novo;
+        }
+    } else {
+        if(pivo->next == NULL) {
+            lista->tail = novo;
+        } else {      
+            novo->next = pivo->next;
+            pivo->next = novo;
+        }
+    }
+    lista->size++;
+}
+
+void imprimeLista(Lista *lista) {
+    Elemento *pivo;
+    if(lista->size != 0){
+        pivo = lista->head;
+        while( pivo != NULL){
+        printf("%i\n", pivo->pessoa->idade);
+        pivo = pivo->next;
+        }
+    }else{
+        printf("Lista Vazia!\n");
+    }
+    
+}
