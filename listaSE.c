@@ -45,7 +45,7 @@ int main(){
         printf("1 - Inserir\n");
         printf("2 - Imprimir lista completa\n");
         scanf("%i", &op);
-        if(op == isalpha(op)){;
+        if(op == isalpha(op)){
             printf("Por favor digite um numero!");
             break;
         }
