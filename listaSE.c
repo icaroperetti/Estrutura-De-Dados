@@ -45,7 +45,7 @@ int main(){
             printf("Programa Finalizado!");
             break;
         }
-        if(op == 1){
+        else if(op == 1){
             novaPessoa = criaPessoa();
             novoElemento = criaElemento(novaPessoa);
             insereLista(lista,pivo,novoElemento);
