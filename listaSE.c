@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <ctype.h>
 /*
     Estrutura de Dados
     Lista Simplesmente Encadeada
@@ -35,18 +35,21 @@ int main(){
     Lista *lista = criaLista();
     Pessoa *novaPessoa;
     Elemento *novoElemento;
-    Elemento *pivo = (Elemento*) malloc(sizeof(Elemento));
+    Elemento *pivo = (Elemento*) malloc (sizeof(Elemento));
     pivo = NULL;
 
     int op = 0;
 
     while(op != 6){
-        printf("Selecione uma opcao:\n ");
+        printf("Selecione uma opcao:\n");
         printf("1 - Inserir\n");
         printf("2 - Imprimir lista completa\n");
         scanf("%i", &op);
-
-        if(op  == 6){
+        if(op == isalpha(op)){;
+            printf("Por favor digite um numero!");
+            break;
+        }
+        else if(op  == 6){
             printf("Programa Finalizado!");
             break;
         }
@@ -119,6 +122,7 @@ void imprimeLista(Lista *lista) {
     Elemento *pivo;
     if(lista->size != 0){
         pivo = lista->head;
+        printf("Numeros na lista:\n");
         while( pivo != NULL){
         printf("%i\n", pivo->pessoa->idade);
         pivo = pivo->next;
