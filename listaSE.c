@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*
+    Estrutura de Dados
+    Lista Simplesmente Encadeada
+    ALuno: Ícaro Peretti
+*/
 
 typedef struct sPessoa{
     int idade;
