@@ -1,11 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/*
-    Estrutura de Dados 1
-    Lista Simplesmente Encadeada
-    Aluno: Icaro Peretti
-*/
 
 typedef struct sElemento{
   struct sElemento *next;
