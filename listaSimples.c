@@ -12,40 +12,52 @@ typedef struct sLista{
   int size;
 } Lista;
 
+
 Lista* criaLista(); 
 Elemento* criaElemento(int); 
-void insereNaLista(Lista*, Elemento*, int);
+void insereNaLista(Lista*, Elemento*, int); 
 int removeDaLista(Lista*, Elemento*); 
 void escreveLista(Lista* lista); 
 Elemento* buscaNaLista(Lista*, int dado); 
+void destroiLista(Lista* lista);
 
 int main(){
-
-Lista* lista_de_inteiros;
-lista_de_inteiros = criaLista();
-
-insereNaLista(lista_de_inteiros,NULL,1);
-insereNaLista(lista_de_inteiros,lista_de_inteiros->tail,5);
-insereNaLista(lista_de_inteiros,lista_de_inteiros->head,10);
-escreveLista(lista_de_inteiros);
-
-Elemento* pivo = buscaNaLista(lista_de_inteiros,10);
-printf("Pivo: %i\n",pivo->dado);
-insereNaLista(lista_de_inteiros,pivo,7);
-
-escreveLista(lista_de_inteiros);
-
-//printf("Tamanho da lista:%i\n",lista_de_inteiros->size);
-//printf("Head:%i\n",lista_de_inteiros->head->dado);
-
-int dado = removeDaLista(lista_de_inteiros,NULL);
-//dado = removeDaLista(lista_de_inteiros,NULL);
-//dado = removeDaLista(lista_de_inteiros,NULL);
-//dado = removeDaLista(lista_de_inteiros,NULL);
-printf("\nExcluido:%i\n", dado);
-printf("Tamanho da Lista:%i", lista_de_inteiros->size);
+  int removido;
+  Lista *lista1;
+  lista1 = criaLista();
 
 
+  insereNaLista(lista1,NULL,5);
+  insereNaLista(lista1,lista1->tail,10);
+  insereNaLista(lista1,lista1->head,15);
+  Elemento* pivo = buscaNaLista(lista1,5);
+  insereNaLista(lista1,pivo,12);
+  escreveLista(lista1);
+
+
+  //printf("Pivo: %i\n",pivo->dado);
+  //insereNaLista(lista1,pivo,7);
+
+  //escreveLista(lista1);
+
+  //printf("Tamanho da lista:%i\n",lista1->size);
+  //printf("Head:%i\n",lista1->head->dado);
+
+  removido = removeDaLista(lista1,NULL);
+  printf("\nExcluido:%i\n", removido);
+  escreveLista(lista1);
+  
+ destroiLista(lista1);
+
+  //printf("Tamanho da Lista:%i", lista1->size);
+}
+
+void destroiLista(Lista* lista){
+  while(lista->size > 0){
+    removeDaLista(lista,NULL);
+    printf("Size: %i\n",lista->size);
+  }
+  free(lista);
 }
 
 Lista* criaLista(){
@@ -56,6 +68,7 @@ Lista* criaLista(){
 
     return lista;
 }
+
 
 Elemento* criaElemento(int dado){
     Elemento* elemento;
