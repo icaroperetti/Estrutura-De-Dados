@@ -12,12 +12,12 @@ typedef struct sLista{
   int size;
 } Lista;
 
-Lista* criaLista(); //OK
-Elemento* criaElemento(int); //OK
-void insereNaLista(Lista*, Elemento*, int); //OK
-int removeDaLista(Lista*, Elemento*); //OK
-void escreveLista(Lista* lista); //OK
-Elemento* buscaNaLista(Lista*, int dado); //Ok
+Lista* criaLista(); 
+Elemento* criaElemento(int); 
+void insereNaLista(Lista*, Elemento*, int);
+int removeDaLista(Lista*, Elemento*); 
+void escreveLista(Lista* lista); 
+Elemento* buscaNaLista(Lista*, int dado); 
 
 int main(){
 
