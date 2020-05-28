@@ -1,6 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*
+    Estrutura de Dados 1
+    Lista Simplesmente Encadeada
+    ALuno: Ícaro Peretti
+*/
+
 typedef struct sElemento{
   struct sElemento *next;
   int *dado;
@@ -53,9 +59,10 @@ int main(){
 }
 
 void destroiLista(Lista* lista){
+  int dado;
   while(lista->size > 0){
-    removeDaLista(lista,NULL);
-    printf("Size: %i\n",lista->size);
+    dado = removeDaLista(lista,NULL);
+    printf("Dado excluido:%i - Size: %i\n",dado,lista->size);
   }
   free(lista);
 }
