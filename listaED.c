@@ -30,35 +30,37 @@ void destroiLista(Lista* lista);
 
 int main(){
   int removido;
+  Elemento* pivo;
   Lista *lista1;
   lista1 = criaLista();
+  if(lista1 == NULL){
+    printf("Erro na criação da lista");
+    return 0;
+  }
 
 
   insereNaLista(lista1,NULL,5);
-  insereNaLista(lista1,lista1->head,15);
-  insereNaLista(lista1,lista1->tail,10);
-  insereNaLista(lista1,lista1->head->next,20);
-  //Elemento* pivo = buscaNaLista(lista1,5);
+  insereNaLista(lista1,lista1->head,10);
+  insereNaLista(lista1,lista1->head->next,15);
+  insereNaLista(lista1,lista1->tail,20);
+
+  pivo = buscaNaLista(lista1,20);
+  printf("Pivo Encontrado: %i\n",pivo->dado);
+
   //insereNaLista(lista1,pivo,12);
   escreveLista(lista1);
-  removido = removeDaLista(lista1,lista1->tail);
-  printf("\nExcluido:%i\n", removido);
-  escreveLista(lista1);
 
-  
-  
+  //removido = removeDaLista(lista1,lista1->tail);
+  //printf("\nExcluido:%i\n", removido);
   destroiLista(lista1);
-
 }
 
 void destroiLista(Lista* lista){
-  
+  int dado;
   while(lista->size > 0){
-    removeDaLista(lista,lista->head);
-    removeDaLista(lista,lista->head->next);
-    removeDaLista(lista,lista->tail);
+    dado = removeDaLista(lista,lista->tail);
+    printf("Dado:%i - Size: %i\n",dado,lista->size);
   }
-  printf("Size: %i\n",lista->size);
   free(lista);
 }
 
@@ -86,10 +88,13 @@ Elemento* criaElemento(int dado){
 void insereNaLista(Lista* lista, Elemento* pivo, int dado){
     Elemento* novo;
     novo = criaElemento(dado);
+    if(novo == NULL){
+      return -1;
+    }
 
     novo->dado = dado;
 
-    if((pivo== NULL)&&(lista->size > 0)){
+    if((pivo == NULL)&&(lista->size > 0)){
         printf("O pivo deve ser NULL na insercao do primeiro elemento");
         exit(0);
     }
@@ -115,10 +120,9 @@ void insereNaLista(Lista* lista, Elemento* pivo, int dado){
 
 int removeDaLista(Lista* lista, Elemento* pivo){
     int dado;
-    //Elemento* antigo;
- 
    if((pivo != NULL) && (lista->size != 0)){
     if(pivo == lista->head){
+      lista->head = pivo->next;
       if(lista->head == NULL){
         lista->tail = NULL;
       }else {
@@ -148,7 +152,7 @@ void escreveLista(Lista* lista){
   }
   printf("NULL\n");
 }
-/*
+
 Elemento* buscaNaLista(Lista* lista, int dado){
   Elemento* elemento;
   elemento = lista->head;
@@ -161,4 +165,4 @@ Elemento* buscaNaLista(Lista* lista, int dado){
   }
   return NULL;
 }
-*/
+
