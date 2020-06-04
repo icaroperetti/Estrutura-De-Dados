@@ -182,6 +182,5 @@ Elemento* buscaNaListaTail(Lista* lista, int dado){
     }
     elemento = elemento->prev;
   }
-  printf("Elemento nao encontrado!");
   return NULL;
 }
