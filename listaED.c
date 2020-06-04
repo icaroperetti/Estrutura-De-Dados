@@ -46,10 +46,10 @@ int main(){
   insereNaLista(lista1,lista1->tail,20);
 
   pivo = buscaNaLista(lista1,20);
-  printf("Pivo Encontrado: %i\n",pivo->dado);
+  printf("Busca head:\n Encontrado: %i\n",pivo->dado);
 
   pivo = buscaNaListaTail(lista1,15);
-  printf("Pivo 2 Encontrado: %i\n", pivo->dado);
+  printf("Busca tail:\n Encontrado: %i\n", pivo->dado);
   //insereNaLista(lista1,pivo,12);
   escreveLista(lista1);
 
@@ -150,6 +150,7 @@ int removeDaLista(Lista* lista, Elemento* pivo){
 void escreveLista(Lista* lista){
   Elemento* elemento;
   elemento = lista->head;
+  printf("Lista completa:");
   while(elemento != NULL){
     printf("%i -> ",elemento->dado);
     elemento = elemento->next;
@@ -184,5 +185,3 @@ Elemento* buscaNaListaTail(Lista* lista, int dado){
   printf("Elemento nao encontrado!");
   return NULL;
 }
-
-
