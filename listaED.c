@@ -52,7 +52,7 @@ int main(){
 }
 
 void destroiLista(Lista* lista){
-  int dado;
+  
   while(lista->size > 0){
     removeDaLista(lista,lista->head);
     removeDaLista(lista,lista->head->next);
