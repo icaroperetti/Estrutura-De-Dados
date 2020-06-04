@@ -52,6 +52,7 @@ int main(){
 
   //removido = removeDaLista(lista1,lista1->tail);
   //printf("\nExcluido:%i\n", removido);
+  
   destroiLista(lista1);
 }
 
@@ -59,7 +60,7 @@ void destroiLista(Lista* lista){
   int dado;
   while(lista->size > 0){
     dado = removeDaLista(lista,lista->tail);
-    printf("Dado:%i - Size: %i\n",dado,lista->size);
+    printf("Dado excluido:%i - Size: %i\n",dado,lista->size);
   }
   free(lista);
 }
@@ -163,6 +164,7 @@ Elemento* buscaNaLista(Lista* lista, int dado){
     }
     elemento = elemento->next;
   }
+  printf("Elemento nao encontrado!");
   return NULL;
 }
 
