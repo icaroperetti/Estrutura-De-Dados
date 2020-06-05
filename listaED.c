@@ -100,7 +100,7 @@ void insereNaLista(Lista* lista, Elemento* pivo, int dado){
 
     if((pivo == NULL)&&(lista->size > 0)){
         printf("O pivo deve ser NULL na insercao do primeiro elemento");
-        exit(0);
+        return 0;
     }
 
     if(lista->size == 0){
