@@ -34,6 +34,7 @@ int main(){
   Elemento* pivo;
   Lista *lista1;
   lista1 = criaLista();
+
   if(lista1 == NULL){
     printf("Erro na criação da lista");
     return 0;
@@ -45,11 +46,11 @@ int main(){
   insereNaLista(lista1,lista1->head->next,15);
   insereNaLista(lista1,lista1->tail,20);
 
-  pivo = buscaNaLista(lista1,20);
+  pivo = buscaNaLista(lista1,10);
   printf("Busca head:\n Encontrado: %i\n",pivo->dado);
 
-  pivo = buscaNaListaTail(lista1,15);
-  printf("Busca tail:\n Encontrado: %i\n", pivo->dado);
+  //pivo = buscaNaListaTail(lista1,15);
+  //printf("Busca tail:\n Encontrado: %i\n",pivo->dado);
   //insereNaLista(lista1,pivo,12);
   escreveLista(lista1);
 
@@ -95,14 +96,12 @@ void insereNaLista(Lista* lista, Elemento* pivo, int dado){
     if(novo == NULL){
       return -1;
     }
-
     novo->dado = dado;
-
+    
     if((pivo == NULL)&&(lista->size > 0)){
         printf("O pivo deve ser NULL na insercao do primeiro elemento");
-        return 0;
+        exit(0);
     }
-
     if(lista->size == 0){
       lista->head = novo;
       lista->tail = novo;
@@ -123,7 +122,7 @@ void insereNaLista(Lista* lista, Elemento* pivo, int dado){
 }
 
 int removeDaLista(Lista* lista, Elemento* pivo){
-    int dado;
+   int dado;
    if((pivo != NULL) && (lista->size != 0)){
     if(pivo == lista->head){
       lista->head = pivo->next;
@@ -175,7 +174,6 @@ Elemento* buscaNaLista(Lista* lista, int dado){
 Elemento* buscaNaListaTail(Lista* lista, int dado){
    Elemento* elemento;
    elemento = lista->tail;
-
   while(elemento != NULL){
     if(elemento->dado == dado){
       return elemento;
