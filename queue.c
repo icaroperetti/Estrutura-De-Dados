@@ -24,7 +24,7 @@ int main(){
   Queue *queue = criaFila();
 
   insereNaFila(queue,20);
-  insereNaFila(queue->front,25);
+  insereNaFila(queue,25);
   escreveFila(queue);
 }
 
@@ -57,12 +57,12 @@ Elemento* criaElemento(int dado){
 void insereNaFila(Queue *queue, int dado){
   Elemento *novo;
   novo = criaElemento(dado);
-  if (queue->size < MAX){
+  if (queue->size  == 0){
     queue->front = novo;
     queue->rear = novo;
   }
   else{
-    if (queue->size > 0){
+    if (queue->size == 1){
       novo->prev = queue->front;
       queue->front->next = novo;
       novo->next = NULL;
@@ -81,9 +81,8 @@ void insereNaFila(Queue *queue, int dado){
 void escreveFila(Queue* queue){
     Elemento* elemento;
     elemento = queue->front;
-    printf("Valores inseridos:");
     while(queue->size > 0){
-        printf("%i -> ", elemento->dado);
+        printf("%i\n", elemento->dado);
         elemento = elemento->next;
     }
 }
