@@ -84,6 +84,7 @@ Elemento* criaElemento(int dado){
     elemento = (Elemento*) malloc (sizeof(Elemento));
 
     elemento->next = NULL;
+    elemento->prev = NULL;
     elemento->dado = dado;
 
     return elemento;
