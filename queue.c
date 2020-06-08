@@ -18,14 +18,29 @@ Queue* criaFila();
 void insereNaFila(Queue* queue, int dado);
 Elemento* criaElemento(int dado);
 void escreveFila(Queue* queue);
-
+int filaVazia(Queue*);
+void removeDaFila(Queue*);
+void destroiFila(Queue*);
 
 int main(){
   Queue *queue = criaFila();
+  int removido;
+    insereNaFila(queue, 20);
+    insereNaFila(queue, 25);
+    insereNaFila(queue, 30);
+    escreveFila(queue);
+    //remove(queue);    
+    destroiFila(queue);
+}
 
-  insereNaFila(queue,20);
-  insereNaFila(queue,25);
-  escreveFila(queue);
+void destroiFila(Queue* queue){
+    Elemento *elemento;
+    elemento = queue->front;
+    while(queue->size > 0){
+        removeDaFila(queue);
+    }
+    printf("\nSize: %i",queue->size);
+    free(queue);
 }
 
 Queue* criaFila(){
@@ -41,6 +56,16 @@ Queue* criaFila(){
   return queue;
 }
 
+//Função para verificar se a fila está vazia
+int filaVazia(Queue* queue){
+	if(queue->front == NULL && queue->rear == NULL){
+    return 1;
+  }else{
+    return 0;
+  }
+} 
+
+
 Elemento* criaElemento(int dado){
   Elemento* elemento;
   elemento = (Elemento*) malloc (sizeof(Elemento));
@@ -55,34 +80,47 @@ Elemento* criaElemento(int dado){
 }
 
 void insereNaFila(Queue *queue, int dado){
-  Elemento *novo;
-  novo = criaElemento(dado);
-  if (queue->size  == 0){
-    queue->front = novo;
-    queue->rear = novo;
+  Elemento* novo = criaElemento(dado);
+  novo->dado = dado;
+    if(queue->size == 0){
+        queue->front = novo;
+        queue->rear = novo;
+    }else{
+        if (queue->size == 1){
+            novo->prev = queue->front;
+            queue->front->next = novo;
+            novo->next = NULL;
+            queue->rear = novo;
+        }else {
+            novo->prev = queue->rear;
+            novo->next = NULL;
+            queue->rear->next =novo;
+            queue->rear = novo;
+        }
+    } 
+
+    queue->size++;
+}
+
+void removeDaFila(Queue* queue){
+   int dado;
+  Elemento *antigo;
+  if(queue->size == 0){
+    printf("A fila esta vazia");
   }
-  else{
-    if (queue->size == 1){
-      novo->prev = queue->front;
-      queue->front->next = novo;
-      novo->next = NULL;
-      queue->rear = novo;
-    }
-    else{
-      novo->prev = queue->rear;
-      novo->next = NULL;
-      queue->rear->next = novo;
-      queue->rear = novo;
-    }
-  }
-  queue->size++;
+  antigo = queue->front;
+  queue->front = queue->front->next;
+  dado = antigo->dado;
+  free(antigo);
+  queue->size--;
 }
 
 void escreveFila(Queue* queue){
-    Elemento* elemento;
-    elemento = queue->front;
-    while(queue->size > 0){
-        printf("%i\n", elemento->dado);
-        elemento = elemento->next;
+   Elemento* aux;
+    aux = queue->front;
+    printf("Inseridos: ");
+    for(int i = 0; i < queue->size; i++){
+        printf("%i ", aux->dado);
+        aux = aux->next;
     }
 }
