@@ -18,7 +18,6 @@ Queue* criaFila();
 void insereNaFila(Queue* queue, int dado);
 Elemento* criaElemento(int dado);
 void escreveFila(Queue* queue);
-int filaVazia(Queue*);
 int removeDaFila(Queue*);
 void destroiFila(Queue*);
 
@@ -61,16 +60,6 @@ Queue* criaFila(){
   queue->size = 0;
   return queue;
 }
-
-//Função para verificar se a fila está vazia
-int filaVazia(Queue* queue){
-	if(queue->front == NULL && queue->rear == NULL){
-    return 1;
-  }else{
-    return 0;
-  }
-} 
-
 
 Elemento* criaElemento(int dado){
   Elemento* elemento;
