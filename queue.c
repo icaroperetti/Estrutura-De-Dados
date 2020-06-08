@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define MAX 100
+
 
 typedef struct sQueue{
   struct sElemento *front;
@@ -40,11 +40,12 @@ int main(){
 
 void destroiFila(Queue* queue){
     Elemento *elemento;
+    int dado;
     elemento = queue->front;
     while(queue->size > 0){
-        removeDaFila(queue);
+       dado = removeDaFila(queue);
+       printf("\nRemovido: %i - Size: %i\n",dado,queue->size);
     }
-    printf("\nSize:%i",queue->size);
     free(queue);
 }
 
