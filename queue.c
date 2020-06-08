@@ -41,7 +41,7 @@ int main(){
 void destroiFila(Queue* queue){
     Elemento *elemento;
     elemento = queue->front;
-    while(queue->size != NULL){
+    while(queue->size > 0){
         removeDaFila(queue);
     }
     printf("\nSize:%i",queue->size);
@@ -87,7 +87,6 @@ Elemento* criaElemento(int dado){
 void insereNaFila(Queue *queue, int dado){
   Elemento *novo;
   novo = criaElemento(dado);
-  novo->next = NULL;
   if(queue->front == NULL && queue->rear == NULL){
     queue->front = novo;
     queue->rear = novo;
