@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 typedef struct sQueue{
   struct sElemento *front;
   struct sElemento *rear;
@@ -18,6 +17,7 @@ Queue* criaFila();
 void insereNaFila(Queue* queue, int dado);
 Elemento* criaElemento(int dado);
 void escreveFila(Queue* queue);
+int empty(Queue*);
 int removeDaFila(Queue*);
 void destroiFila(Queue*);
 
@@ -29,12 +29,10 @@ int main(){
   insereNaFila(queue,25);
   insereNaFila(queue,30);
   insereNaFila(queue,35);
-  printf("Size:%i\n",queue->size);
   //removido = removeDaFila(queue);
   //printf("Removido: %i\n",removido);
   escreveFila(queue);
   destroiFila(queue);
-  
 }
 
 void destroiFila(Queue* queue){
@@ -60,6 +58,16 @@ Queue* criaFila(){
   queue->size = 0;
   return queue;
 }
+
+//Função para verificar se a fila está vazia
+int empty(Queue* queue){
+	if(queue->rear < queue->front){
+    return 1;
+  }else{
+    return 0;
+  }
+} 
+
 
 Elemento* criaElemento(int dado){
   Elemento* elemento;
@@ -90,15 +98,15 @@ void insereNaFila(Queue *queue, int dado){
 
 int removeDaFila(Queue* queue){
   int dado;
-  Elemento *antigo;
+  Elemento *aux;
   if(queue->size == 0){
     printf("A fila esta vazia");
     return 0;
   }
-  antigo = queue->front;
+  aux = queue->front;
   queue->front = queue->front->next;
-  dado = antigo->dado;
-  free(antigo);
+  dado = aux->dado;
+  free(aux);
   queue->size--;
   return dado;
 }
