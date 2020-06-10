@@ -45,11 +45,11 @@ typedef struct sEspera{
 } Espera;
 
 
-Carro* criaCarro(int placa);
+Carro* criaCarro(int);
 Estacionamento* criaEstacionamento();
 Espera* criaEspera();
 void insereCarro(Estacionamento*, int);
-void imprimeEstacionamento(Estacionamento* estacionamento);
+void imprimeEstacionamento(Estacionamento*);
 
 
 int main(){
@@ -60,11 +60,12 @@ int main(){
 
     insereCarro(est,placa);
     insereCarro(est,placa);
+    insereCarro(est,placa);
     imprimeEstacionamento(est);
 }
 
 Carro* criaCarro(int placa){
-    placa = rand() %1000;
+    placa = rand() %1000 + 50;
     Carro *carro = (Carro*)malloc(sizeof(Carro));
     carro->placa= placa;
     carro->deslocamento=0;
@@ -97,7 +98,9 @@ Espera *criaEspera(){
 
 void insereCarro(Estacionamento *est, int placa){
     Carro *novo_carro = criaCarro(placa);
-    if (est->front == NULL && est->rear == NULL){
+    if(est->size <= MAXQUEUE){
+        printf("Possuem %i vagas\n", MAXQUEUE - est->size);
+        if (est->size == 0){
         est->front = novo_carro;
         est->rear = novo_carro;
     }
@@ -107,6 +110,9 @@ void insereCarro(Estacionamento *est, int placa){
         est->rear = novo_carro;
     }
     est->size++;
+    printf("Carro estacionado\n\n");
+    }
+    //FAZER INSERÇÃO NA ESPERA
 }
 
 void imprimeEstacionamento(Estacionamento* estacionamento){
@@ -119,4 +125,3 @@ void imprimeEstacionamento(Estacionamento* estacionamento){
         aux = aux->next;
     }
 }
-
