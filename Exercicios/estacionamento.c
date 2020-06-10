@@ -53,13 +53,18 @@ void imprimeEstacionamento(Estacionamento* estacionamento);
 
 
 int main(){
-   Estacionamento *est= criaEstacionamento();
+    srand(time(NULL));
+    int placa;
+    Estacionamento *est= criaEstacionamento();
     Espera *espera = criaEspera();
-    insereCarro(est,10);
+
+    insereCarro(est,placa);
+    insereCarro(est,placa);
     imprimeEstacionamento(est);
 }
 
 Carro* criaCarro(int placa){
+    placa = rand() %1000;
     Carro *carro = (Carro*)malloc(sizeof(Carro));
     carro->placa= placa;
     carro->deslocamento=0;
@@ -107,9 +112,10 @@ void insereCarro(Estacionamento *est, int placa){
 void imprimeEstacionamento(Estacionamento* estacionamento){
     Carro* aux = (Carro*)malloc(sizeof(Carro));
     aux = estacionamento->front;
-    printf("\nCarros no estacionamento %i\n", estacionamento->size);
+    printf("Quantidade de carros no estacionamento %i\n", estacionamento->size);
+    printf("Placas:");
     for(int i = 0; i < estacionamento->size; i++){
-        printf("Placa:%i ", aux->placa);
+        printf("%i ", aux->placa);
         aux = aux->next;
     }
 }
