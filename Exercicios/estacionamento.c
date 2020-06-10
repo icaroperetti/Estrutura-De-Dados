@@ -22,7 +22,8 @@ sse número será 0 se o carro for embora a partir da linha de espera.
 
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <time.h>
+#define MAXQUEUE 10
 
 typedef struct sEstacionamento{
   struct sCarro *front;
@@ -43,28 +44,33 @@ typedef struct sEspera{
   int size;
 } Espera;
 
-Carro* novoCarro(int);
+
+Carro* criaCarro(int placa);
 Estacionamento* criaEstacionamento();
 Espera* criaEspera();
-int main(){
+void insereCarro(Estacionamento*, int);
+void imprimeEstacionamento(Estacionamento* estacionamento);
 
+
+int main(){
+   Estacionamento *est= criaEstacionamento();
+    Espera *espera = criaEspera();
+    insereCarro(est,10);
+    imprimeEstacionamento(est);
 }
-Carro* novoCarro(int placa){
-    Carro *carro;
-    carro = (Carro*)malloc(sizeof(carro));
-    if(carro == NULL){
-        printf("Memória não alocada");
-    }
-    carro->deslocamento = 1;
-    carro->placa = placa;
+
+Carro* criaCarro(int placa){
+    Carro *carro = (Carro*)malloc(sizeof(Carro));
+    carro->placa= placa;
+    carro->deslocamento=0;
     return carro;
 }
 
 Estacionamento* criaEstacionamento(){
     Estacionamento *estacionamento;
-    estacionamento = (Estacionamento*)malloc(sizeof(estacionamento));
+    estacionamento = (Estacionamento*)malloc(sizeof(Estacionamento));
     if (estacionamento == NULL){
-        printf("Memoria nao alocada");
+        printf("Memoria nao alocada 1");
     }
     estacionamento->front = NULL;
     estacionamento->rear = NULL;
@@ -72,14 +78,39 @@ Estacionamento* criaEstacionamento(){
     return estacionamento;
 }
 
-Espera* criaEspera(){
-    Espera *espera;
-    espera = (Espera*)malloc(sizeof(espera));
-    if(espera == NULL){
-        printf("Memoria nao alocada");
+
+Espera *criaEspera(){
+    Espera *espera = (Espera*)malloc(sizeof(Espera));
+    if (espera == NULL){
+        printf("Memoria nao alocada 2");
     }
     espera->front = NULL;
     espera->rear = NULL;
-    espera->size = 0;
+    espera->size=0;
     return espera;
 }
+
+void insereCarro(Estacionamento *est, int placa){
+    Carro *novo_carro = criaCarro(placa);
+    if (est->front == NULL && est->rear == NULL){
+        est->front = novo_carro;
+        est->rear = novo_carro;
+    }
+    else{
+        novo_carro->prev = est->rear;
+        est->rear->next = novo_carro;
+        est->rear = novo_carro;
+    }
+    est->size++;
+}
+
+void imprimeEstacionamento(Estacionamento* estacionamento){
+    Carro* aux = (Carro*)malloc(sizeof(Carro));
+    aux = estacionamento->front;
+    printf("\nCarros no estacionamento %i\n", estacionamento->size);
+    for(int i = 0; i < estacionamento->size; i++){
+        printf("Placa:%i ", aux->placa);
+        aux = aux->next;
+    }
+}
+
