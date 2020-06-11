@@ -141,18 +141,19 @@ void addEspera(Espera* espera,Carro* carro){
 void imprimeEstacionamento(Estacionamento* estacionamento){
     Carro *aux;
     aux = estacionamento->front;
-    printf("Quantidade de carros no estacionamento %i\n", estacionamento->size);
+    printf("\nQuantidade de carros no estacionamento: %i\n", estacionamento->size);
     printf("Placas:");
     for(int i = 0; i < estacionamento->size; i++){
         printf("%i ", aux->placa);
         aux = aux->next;
     }
+    printf("\n\n");
 }
 
 void imprimeEspera(Espera* espera){
     Carro *aux;
     aux = espera->front;
-    printf("\n\nQuantidade de carros em espera\n",espera->size);
+    printf("Quantidade de carros em espera:%i\n", espera->size);
     printf("Placas dos carros em espera: ");
     for(int i = 0; i< espera->size;i++){
         printf("%i ",aux->placa);
