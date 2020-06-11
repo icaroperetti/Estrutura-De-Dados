@@ -23,7 +23,7 @@ sse número será 0 se o carro for embora a partir da linha de espera.
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#define MAXQUEUE 10
+#define MAXQUEUE 5
 
 typedef struct sEstacionamento{
   struct sCarro *front;
@@ -48,9 +48,10 @@ typedef struct sEspera{
 Carro* criaCarro(int);
 Estacionamento* criaEstacionamento();
 Espera* criaEspera();
-void insereCarro(Estacionamento*, int);
+void insereCarro(Estacionamento*,Espera*, int);
 void imprimeEstacionamento(Estacionamento*);
-
+void addEspera(Espera* espera,Carro* carro);
+void imprimeEspera(Espera* espera);
 
 int main(){
     srand(time(NULL));
@@ -58,12 +59,16 @@ int main(){
     Estacionamento *est= criaEstacionamento();
     Espera *espera = criaEspera();
 
-    insereCarro(est,placa);
-    insereCarro(est,placa);
-    insereCarro(est,placa);
-    insereCarro(est,placa);
-    insereCarro(est,placa);
+    insereCarro(est,espera,placa);
+    insereCarro(est,espera,placa);
+    insereCarro(est,espera,placa);
+    insereCarro(est,espera,placa);
+    insereCarro(est,espera,placa);
+    insereCarro(est,espera,placa);
+    insereCarro(est,espera,placa);
+
     imprimeEstacionamento(est);
+    imprimeEspera(espera);
 }
 
 Carro* criaCarro(int placa){
@@ -98,9 +103,9 @@ Espera *criaEspera(){
     return espera;
 }
 
-void insereCarro(Estacionamento *est, int placa){
+void insereCarro(Estacionamento *est,Espera* espera ,int placa){
     Carro *novo_carro = criaCarro(placa);
-    if(est->size <= MAXQUEUE){
+    if(est->size < MAXQUEUE){
         printf("Possuem %i vagas\n", MAXQUEUE - est->size);
         if (est->size == 0){
         est->front = novo_carro;
@@ -114,7 +119,23 @@ void insereCarro(Estacionamento *est, int placa){
     est->size++;
     printf("Carro estacionado\n\n");
     }
-    //FAZER INSERÇÃO NA ESPERA
+    else{
+        printf("Estacionamento cheio!\n");
+        addEspera(espera,novo_carro);
+    }
+}
+
+void addEspera(Espera* espera,Carro* carro){
+    if (espera->size == 0){
+        espera->front = carro;
+        espera->rear = carro;
+    }
+    else{
+        carro->prev = espera->rear;
+        espera->rear->next = carro;
+        espera->rear = carro;
+    }
+    espera->size++;
 }
 
 void imprimeEstacionamento(Estacionamento* estacionamento){
@@ -128,3 +149,13 @@ void imprimeEstacionamento(Estacionamento* estacionamento){
     }
 }
 
+void imprimeEspera(Espera* espera){
+    Carro *aux;
+    aux = espera->front;
+    printf("\n\nQuantidade de carros em espera\n",espera->size);
+    printf("Placas dos carros em espera: ");
+    for(int i = 0; i< espera->size;i++){
+        printf("%i ",aux->placa);
+        aux = aux->next;
+    }
+}
