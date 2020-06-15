@@ -15,12 +15,12 @@ typedef struct sApq {
 } Apq;
 
 Apq* criaAPq();
-void apqInsert(Apq* apq, int dado);
+void apqInsert(Apq*, int);
 void imprime(Apq*);
-Apq* apqSearchMin(Apq*);
+int apqSearchMin(Apq*);
 int apqMinDelete(Apq*);
 void destroiApq(Apq*);
-void empty(Apq* apq);
+void empty(Apq* );
 
 int main(){
     Elemento *menor;
@@ -102,7 +102,7 @@ void apqInsert(Apq* apq, int dado){
     apq->size++;
 }
 
-Apq* apqSearchMin(Apq* apq){
+int apqSearchMin(Apq* apq){
     Elemento *elemento,*min;
     min = apq->front;
     elemento = apq->front;
