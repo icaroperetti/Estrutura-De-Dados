@@ -41,7 +41,7 @@ int main(){
 
     
     removido = apqMinDelete(apq);
-    printf("Removido: %i\n\n",removido);
+    printf("\nRemovido: %i\n",removido);
 
     removido = apqMinDelete(apq);
     printf("Removido: %i\n\n",removido);
