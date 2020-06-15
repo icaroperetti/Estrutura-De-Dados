@@ -17,13 +17,14 @@ typedef struct sApq {
 Apq* criaAPq();
 void apqInsert(Apq* apq, int dado);
 void imprime(Apq*);
-int apqSearchMin(Apq*);
+Apq* apqSearchMin(Apq*);
 int apqMinDelete(Apq*);
 void destroiApq(Apq*);
 void empty(Apq* apq);
 
 int main(){
-    Elemento *removido,*menor;
+    Elemento *menor;
+    int removido;
     Apq* apq = criaAPq();
 
     empty(apq); //Verificando antes de inserir
@@ -38,14 +39,9 @@ int main(){
     empty(apq); //Verificando depois de inserir
     imprime(apq);
 
-    menor = apqSearchMin(apq);
-    printf("Menor valor:%i\n",menor->dado);
-
+    
     removido = apqMinDelete(apq);
     printf("Removido: %i\n\n",removido);
-
-    menor = apqSearchMin(apq);
-    printf("Menor valor:%i\n",menor->dado);
 
     removido = apqMinDelete(apq);
     printf("Removido: %i\n\n",removido);
@@ -105,7 +101,7 @@ void apqInsert(Apq* apq, int dado){
     apq->size++;
 }
 
-int apqSearchMin(Apq* apq){
+Apq* apqSearchMin(Apq* apq){
     Elemento *elemento,*min;
     min = apq->front;
     elemento = apq->front;
@@ -122,7 +118,7 @@ int apqMinDelete(Apq* apq){
     Elemento *remover,*pivo;
     int dado;
     remover = apqSearchMin(apq);
-    if ((remover != NULL) && (apq->size > 0)){
+    if ((remover != 0 ) && (apq->size > 0)){
         if (remover == apq->front){
             apq->front= remover->next;
             if (apq->front== NULL){
@@ -149,10 +145,10 @@ int apqMinDelete(Apq* apq){
 }
 
 void empty(Apq* apq){
-    if(apq->size == NULL){
-       printf("Fila vazia\n");
+    if(apq->size > 0){
+       printf("Fila nao esta vazia\n");
     }else{
-        printf("Fila nao esta vazia\n");
+        printf("Fila vazia\n");
     }
 }
 
@@ -166,4 +162,3 @@ void imprime(Apq* apq){
     }
     printf("\n");
 }
-
