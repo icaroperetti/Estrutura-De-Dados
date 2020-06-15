@@ -50,6 +50,7 @@ int main(){
 
     destroiApq(apq);
     
+    return 0;  
 }
 
 void destroiApq(Apq* apq){
