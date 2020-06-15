@@ -31,16 +31,23 @@ int main(){
     apqInsert(apq,40);
     apqInsert(apq,1);
 
-    apqMinDelete(apq);
-    apqMinDelete(apq);
-    apqMinDelete(apq);
+    removido = apqMinDelete(apq);
+    printf("Removido:%i\n",removido);
 
     imprime(apq);
-    
+
+    destroiApq(apq);
     
 }
 
-
+void destroiApq(Apq* apq){
+    int dado;
+    while(apq->size > 0){
+        dado = apqMinDelete(apq);
+        printf("Removido: %i - Size: %i\n",dado,apq->size);
+    }
+    free(apq);
+}
 
 Apq* criaAPq(){
     Apq* apq;
