@@ -1,3 +1,4 @@
+//Exercicio 2 e 3
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -19,20 +20,35 @@ void imprime(Apq*);
 int apqSearchMin(Apq*);
 int apqMinDelete(Apq*);
 void destroiApq(Apq*);
+void empty(Apq* apq);
 
 int main(){
-    Elemento* removido;
-
+    Elemento *removido,*menor;
     Apq* apq = criaAPq();
 
+    empty(apq); //Verificando antes de inserir
+
+    printf("Inserindo elementos\n\n");
     apqInsert(apq,10);
     apqInsert(apq,20);
     apqInsert(apq,30);
     apqInsert(apq,40);
     apqInsert(apq,1);
 
+    empty(apq); //Verificando depois de inserir
+    imprime(apq);
+
+    menor = apqSearchMin(apq);
+    printf("Menor valor:%i\n",menor->dado);
+
     removido = apqMinDelete(apq);
-    printf("Removido:%i\n",removido);
+    printf("Removido: %i\n\n",removido);
+
+    menor = apqSearchMin(apq);
+    printf("Menor valor:%i\n",menor->dado);
+
+    removido = apqMinDelete(apq);
+    printf("Removido: %i\n\n",removido);
 
     imprime(apq);
 
@@ -42,6 +58,7 @@ int main(){
 
 void destroiApq(Apq* apq){
     int dado;
+    printf("Destruindo!\n");
     while(apq->size > 0){
         dado = apqMinDelete(apq);
         printf("Removido: %i - Size: %i\n",dado,apq->size);
@@ -52,6 +69,9 @@ void destroiApq(Apq* apq){
 Apq* criaAPq(){
     Apq* apq;
     apq = (Apq*)malloc(sizeof(Apq));
+    if(apq == NULL){
+        printf("Memoria nao alocada 1");
+    }
     apq->front = NULL;
     apq->rear = NULL;
     apq->size = 0;
@@ -61,6 +81,9 @@ Apq* criaAPq(){
 Elemento* criaElemento(int dado){
     Elemento *elemento;
     elemento = (Elemento*)malloc(sizeof(Elemento));
+     if(elemento == NULL){
+        printf("Memoria nao alocada 2");
+    }
     elemento->next = NULL;
     elemento->dado = dado;
     return elemento;
@@ -70,7 +93,7 @@ void apqInsert(Apq* apq, int dado){
     Elemento* novo;
     Elemento* pivo;
     novo = criaElemento(dado);
-    if (apq->front == NULL && apq->rear == NULL){
+    if ((apq->front == NULL) && (apq->rear == NULL)){
         apq->front = novo;
         apq->rear = novo;
     }
@@ -99,7 +122,7 @@ int apqMinDelete(Apq* apq){
     Elemento *remover,*pivo;
     int dado;
     remover = apqSearchMin(apq);
-    if ((remover != NULL) && (apq->size != 0)){
+    if ((remover != NULL) && (apq->size > 0)){
         if (remover == apq->front){
             apq->front= remover->next;
             if (apq->front== NULL){
@@ -125,15 +148,22 @@ int apqMinDelete(Apq* apq){
     }
 }
 
-
+void empty(Apq* apq){
+    if(apq->size == NULL){
+       printf("Fila vazia\n");
+    }else{
+        printf("Fila nao esta vazia\n");
+    }
+}
 
 void imprime(Apq* apq){
-    Elemento* pivo;
-    pivo = apq->front;
+    Elemento* elemento;
+    elemento = apq->front;
     printf("Dados da fila: ");
-    while(pivo != NULL){
-        printf("%i ",pivo->dado);
-        pivo = pivo->next;
+    while(elemento != NULL){
+        printf("%i ",elemento->dado);
+        elemento = elemento->next;
     }
     printf("\n");
 }
+
