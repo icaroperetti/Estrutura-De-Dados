@@ -33,6 +33,7 @@ int main(){
 
     apqMinDelete(apq);
     apqMinDelete(apq);
+    apqMinDelete(apq);
 
     imprime(apq);
     
@@ -81,11 +82,10 @@ int apqSearchMin(Apq* apq){
     while(elemento != NULL){
         if(elemento->dado < min->dado){
             min = elemento;
-            return min;
         }
         elemento  = elemento->next;
     }
-    return 0;
+    return min;
 }
 
 int apqMinDelete(Apq* apq){
@@ -119,6 +119,7 @@ int apqMinDelete(Apq* apq){
 }
 
 
+
 void imprime(Apq* apq){
     Elemento* pivo;
     pivo = apq->front;
@@ -129,4 +130,3 @@ void imprime(Apq* apq){
     }
     printf("\n");
 }
-
