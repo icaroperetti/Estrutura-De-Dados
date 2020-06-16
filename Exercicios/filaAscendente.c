@@ -39,10 +39,12 @@ int main(){
     apqInsert(apq,40);
     apqInsert(apq,1);
 
+    empty(apq); //Verificando depois de inserir
+    
     menor = apqSearchMin(apq);
     printf("Menor valor:%i\n",menor);
 
-    empty(apq); //Verificando depois de inserir
+   
     imprime(apq);
 
     
