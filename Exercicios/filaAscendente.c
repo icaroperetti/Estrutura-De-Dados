@@ -18,16 +18,15 @@ typedef struct sApq {
 } Apq;
 
 Apq* criaAPq();
-void apqInsert(Apq* apq, int dado);
+void apqInsert(Apq*, int );
 void imprime(Apq*);
 int apqSearchMin(Apq*);
 int apqMinDelete(Apq*);
 void destroiApq(Apq*);
-int empty(Apq* apq);
+int empty(Apq*);
 
 int main(){
-    int removido;
-    int menor;
+    int removido,menor;
     Apq* apq = criaAPq();
 
     empty(apq); //Verificando antes de inserir
