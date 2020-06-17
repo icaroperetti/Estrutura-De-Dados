@@ -28,32 +28,42 @@ Estacionamento* criaEstacionamento();
 Espera* criaEspera();
 void insereCarro(Estacionamento*,Espera*, int);
 void imprimeEstacionamento(Estacionamento*);
-void addEspera(Espera* espera,Carro* carro);
-void imprimeEspera(Espera* espera);
+void addEspera(Espera* ,Carro* );
+void imprimeEspera(Espera* );
+int removeCarro(Estacionamento* ,Espera*,int);
+void imprimeDeslocamento(Estacionamento*);
+int removeCarroEspera(Espera* esp,int placa);
 
 int main(){
-    srand(time(NULL));
-    int placa;
+    //srand(time(NULL));
+    int placa,removido;
     Estacionamento *est= criaEstacionamento();
     Espera *espera = criaEspera();
 
-    insereCarro(est,espera,placa);
-    insereCarro(est,espera,placa);
-    insereCarro(est,espera,placa);
-    insereCarro(est,espera,placa);
-    insereCarro(est,espera,placa);
-    insereCarro(est,espera,placa);
-    insereCarro(est,espera,placa);
+    insereCarro(est,espera,10);
+    insereCarro(est,espera,20);
+    insereCarro(est,espera,30);
+    insereCarro(est,espera,40);
+    insereCarro(est,espera,50);
+    
+    insereCarro(est,espera,60);
+    insereCarro(est,espera,70);
+
+    removido = removeCarro(est,espera,10);
+    printf("Removido:%i\n",removido);
+
+    removido = removeCarro(est,espera,20);
+    printf("Removido:%i\n",removido);
 
     imprimeEstacionamento(est);
     imprimeEspera(espera);
 }
 
 Carro* criaCarro(int placa){
-    placa = rand() %100 + 100;
-    Carro *carro = (Carro*)malloc(sizeof(Carro));
+    //placa = rand() %100 + 100;
+    Carro *carro =(Carro*)malloc(sizeof(Carro));
     carro->placa= placa;
-    carro->deslocamento=0;
+    carro->deslocamento = 0;
     return carro;
 }
 
@@ -77,33 +87,33 @@ Espera *criaEspera(){
     }
     espera->front = NULL;
     espera->rear = NULL;
-    espera->size=0;
+    espera->size = 0;
     return espera;
 }
 
 void insereCarro(Estacionamento *est,Espera* espera ,int placa){
-    Carro *novo_carro = criaCarro(placa);
+    Carro *novoCarro = criaCarro(placa);
     if(est->size < MAXQUEUE){
         printf("Possuem %i vagas\n", MAXQUEUE - est->size);
         if (est->size == 0){
-        est->front = novo_carro;
-        est->rear = novo_carro;
+        est->front = novoCarro;
+        est->rear = novoCarro;
     }
     else{
-        novo_carro->prev = est->rear;
-        est->rear->next = novo_carro;
-        est->rear = novo_carro;
+        novoCarro->prev = est->rear;
+        est->rear->next = novoCarro;
+        est->rear = novoCarro;
     }
     est->size++;
     printf("Carro estacionado\n\n");
     }
     else{
         printf("Estacionamento cheio!\n");
-        addEspera(espera,novo_carro);
+        addEspera(espera,novoCarro);
     }
 }
 
-void addEspera(Espera* espera,Carro* carro){
+void addEspera(Espera *espera,Carro *carro){
     if (espera->size == 0){
         espera->front = carro;
         espera->rear = carro;
@@ -116,12 +126,38 @@ void addEspera(Espera* espera,Carro* carro){
     espera->size++;
 }
 
+int removeCarro(Estacionamento *est,Espera* esp,int placa){
+    Carro *antigo, *removeDaEspera;
+    antigo = est->front;
+    int i, dado;
+    if (est->size > 0){
+        if (antigo == est->front){
+            est->front = antigo->next;
+            if (est->front == NULL){
+                est->rear = NULL;
+            }
+            else{
+                antigo->next->prev = NULL;
+            }
+        }
+        else{
+            antigo->prev->next = antigo->next;
+        }
+    }
+    dado = antigo->placa;
+    free(antigo);
+    est->size--;
+    return dado;
+}
+
+
 void imprimeEstacionamento(Estacionamento* estacionamento){
     Carro *aux;
+    int i = 0;
     aux = estacionamento->front;
     printf("\nQuantidade de carros no estacionamento: %i\n", estacionamento->size);
     printf("Placas:");
-    for(int i = 0; i < estacionamento->size; i++){
+    for( i = 0; i < estacionamento->size; i++){
         printf("%i ", aux->placa);
         aux = aux->next;
     }
@@ -131,9 +167,10 @@ void imprimeEstacionamento(Estacionamento* estacionamento){
 void imprimeEspera(Espera* espera){
     Carro *aux;
     aux = espera->front;
+    int i = 0;
     printf("Quantidade de carros em espera:%i\n", espera->size);
     printf("Placas dos carros em espera: ");
-    for(int i = 0; i< espera->size;i++){
+    for(i = 0; i< espera->size;i++){
         printf("%i ",aux->placa);
         aux = aux->next;
     }
