@@ -38,7 +38,7 @@ int main(){
 	Estacionamento* espera;
 	espera = criaEstacionamento();
 
-    insereCarro(estacionamento,espera,1);
+    	insereCarro(estacionamento,espera,1);
 	insereCarro(estacionamento,espera,2);
 	insereCarro(estacionamento,espera,3);
 	insereCarro(estacionamento,espera,4);
@@ -52,7 +52,7 @@ int main(){
 	insereCarro(estacionamento,espera,11);
 	
 
-    removeCarro(estacionamento,espera,2);
+    	removeCarro(estacionamento,espera,2);
 	removeCarro(estacionamento,espera,8);
 	removeCarro(estacionamento,espera,9);
 	removeCarro(estacionamento,espera,10);
