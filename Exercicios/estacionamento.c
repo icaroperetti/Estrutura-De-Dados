@@ -227,7 +227,7 @@ void destroiEstacionamentoeEspera(Estacionamento *est, Estacionamento *espera){
         }else{
             carro->next->prev=NULL;
         }
-		free(carro);
+	free(carro);
         est->size--;
         printf("\nRemovido: %i - Size estacionamento:%i", carro->placa,est->size);
     }
@@ -240,7 +240,7 @@ void destroiEstacionamentoeEspera(Estacionamento *est, Estacionamento *espera){
         }else{
             carro->next->prev=NULL;
         }
-		free(carro);
+	free(carro);
         espera->size--;
         printf("Removido:%i - Size espera:%i", carro->placa, espera->size);
     }    
