@@ -1,6 +1,11 @@
+/*
+    Exercicio 1
+    Ícaro Peretti
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
-#define MAXQUEUE 5
+#define MAXQUEUE 10
 
 typedef struct sCarro{
 	struct sCarro *next;
@@ -16,15 +21,17 @@ typedef struct sEstacionamento{
 	int size;
 }Estacionamento;
 
-Carro* buscaCarro(Estacionamento* est,int placa);
+Carro* buscaCarro(Estacionamento* ,int );
 Estacionamento* criaEstacionamento();
-Carro* criaCarro(int placa);
-void insereCarro(Estacionamento* estacionamento,Estacionamento* espera,int placa);
-void addEspera(Estacionamento* espera,int placa);
-void removeCarro(Estacionamento* estacionamento,Estacionamento* espera,int placa);
-void escreveEstacionamento(Estacionamento* estacionamento);
+Carro* criaCarro(int);
+void insereCarro(Estacionamento* ,Estacionamento* ,int );
+void addEspera(Estacionamento* ,int);
+void removeCarro(Estacionamento* ,Estacionamento* ,int );
+void imprime(Estacionamento* );
+void destroiEstacionamentoeEspera(Estacionamento* ,Estacionamento* );
 
 int main(){
+	int placa;
     Estacionamento* estacionamento;
 	estacionamento = criaEstacionamento();
 	
@@ -33,17 +40,28 @@ int main(){
 
     insereCarro(estacionamento,espera,1);
 	insereCarro(estacionamento,espera,2);
-    insereCarro(estacionamento,espera,3);
+	insereCarro(estacionamento,espera,3);
 	insereCarro(estacionamento,espera,4);
-    insereCarro(estacionamento,espera,5);
+	insereCarro(estacionamento,espera,5);
 	insereCarro(estacionamento,espera,6);
+	insereCarro(estacionamento,espera,7);
+	insereCarro(estacionamento,espera,8);
+	insereCarro(estacionamento,espera,9);
+	insereCarro(estacionamento,espera,10);
 
-    removeCarro(estacionamento,espera,1);
-   
+	insereCarro(estacionamento,espera,11);
+	
 
-	escreveEstacionamento(estacionamento);
+    removeCarro(estacionamento,espera,2);
+	removeCarro(estacionamento,espera,8);
+	removeCarro(estacionamento,espera,9);
+	removeCarro(estacionamento,espera,10);
 
+	imprime(estacionamento);
+	destroiEstacionamentoeEspera(estacionamento,espera);
+	
 }
+
 Estacionamento* criaEstacionamento(){
     Estacionamento *estacionamento;
     estacionamento = (Estacionamento*)malloc(sizeof(Estacionamento));
@@ -102,30 +120,24 @@ void addEspera(Estacionamento* espera,int placa){
 			espera->rear->next = novo_carro;
 			espera->rear = novo_carro;	
 		}
-        printf("Carro adicionado a espera:%i",placa);
+        printf("Carro adicionado a espera:%i\n",placa);
         espera->size++;
 }
 
 void removeCarro(Estacionamento* estacionamento,Estacionamento* espera,int placa){
 	Carro *carro,*aux;
-	int placa_aux;
+	int auxPlaca;
 	int deslocamentos;
-    int troca_fila;
 
 	carro = buscaCarro(estacionamento,placa);
-
-	if(carro != NULL){
-	
+	if(carro > 0){
 		aux = carro->prev;
-		placa_aux = carro->placa;
+		auxPlaca = carro->placa;
 		deslocamentos = carro->deslocamentos;
-		
 		while(aux != NULL){
 			aux->deslocamentos++;
-			aux = aux->prev;
-			
+			aux = aux->prev;	
 		}
-
 		if(carro == estacionamento->front){
 			estacionamento->front = carro->next;
 			if(estacionamento->size == 1){
@@ -144,31 +156,20 @@ void removeCarro(Estacionamento* estacionamento,Estacionamento* espera,int placa
 			carro->next->prev = carro->prev;
 		}
 		estacionamento->size--;
-        printf("\nFoi embora Carro: %i\nDeslocamentos:%i\n",placa,deslocamentos+1);
+        printf("\nCarro %i deixou o estacionamento\nDeslocamentos:%i\n",placa,deslocamentos+1);
         free(aux);
 	}else{
-		
 		carro = buscaCarro(espera,placa);
-		
-		
-		if(carro != NULL){
-			
+		if(carro > 0){
 			if(carro == espera->front){
-			
 			espera->front = carro->next;
 			
 			if(espera->size == 1){
-				
-				
 				espera->rear = NULL;
 			}else{
-				
 				carro->next->prev = NULL;
 			}
-		
-			
-				
-			
+
 			}else if(carro == espera->rear){
 			
 			espera->rear = carro->prev;
@@ -180,36 +181,19 @@ void removeCarro(Estacionamento* estacionamento,Estacionamento* espera,int placa
 			carro->next->prev = carro->prev;
 			
 			}
-		
 			espera->size--;
-			
-			
+			free(carro);
 			
 		}else{
-			
 			printf("Carro nao encontrado");
-			
-		}
-		
-		
-		
-		
+		}	
 	}
 	
-	free(carro);
-	
-	if(estacionamento->size == MAXQUEUE && espera->size > 0 && troca_fila == 0){
-		
-		placa_aux = espera->front->placa;
-		troca_fila = 1;
-		
-		
-		removeCarro(estacionamento,espera,placa_aux);
-		insereCarro(estacionamento,espera,placa_aux);
-		
+	if(estacionamento->size < MAXQUEUE && espera->size > 0){
+		auxPlaca = espera->front->placa;
+		removeCarro(estacionamento,espera,auxPlaca);
+		insereCarro(estacionamento,espera,auxPlaca);
 	}
-	
-	troca_fila = 0;
 }
 
 Carro* buscaCarro(Estacionamento* est,int placa){
@@ -221,10 +205,9 @@ Carro* buscaCarro(Estacionamento* est,int placa){
 		}
 		carro = carro->next;
 	}
-	
 }
 
-void escreveEstacionamento(Estacionamento* estacionamento){
+void imprime(Estacionamento* estacionamento){
 	Carro* carro;
 	carro = estacionamento->front;
 	printf("Carros no estacionamento:");
@@ -232,4 +215,35 @@ void escreveEstacionamento(Estacionamento* estacionamento){
 		printf(" %i ",carro->placa);
 		carro = carro->next;
 	}
+}
+
+void destroiEstacionamentoeEspera(Estacionamento *est, Estacionamento *espera){
+    Carro *carro;
+    while(est->size != 0){
+        carro = est->front;
+        est->front = carro->next;
+        if(est->front==NULL){
+            est->rear=NULL;
+        }else{
+            carro->next->prev=NULL;
+        }
+        printf("\nRemovido: %i - Size estacionamento:%i", carro->placa,est->size);
+        free(carro);
+        est->size--;
+    }
+    
+    while(espera->size != 0){
+        carro = espera->front;
+        espera->front = carro->next;
+        if(espera->front==NULL){
+            espera->rear=NULL;
+        }else{
+            carro->next->prev=NULL;
+        }
+        printf("Removido:%i - Size espera:%i", carro->placa, espera->size);
+        free(carro);
+        espera->size--;
+    }    
+    free(est);
+    free(espera);
 }
