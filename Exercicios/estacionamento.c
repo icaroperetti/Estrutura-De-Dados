@@ -1,6 +1,6 @@
 /*
     Exercicio 1
-    Ícaro Peretti
+    Icaro Peretti
 */
 
 #include <stdio.h>
@@ -134,7 +134,7 @@ void removeCarro(Estacionamento* estacionamento,Estacionamento* espera,int placa
 		aux = carro->prev;
 		auxPlaca = carro->placa;
 		deslocamentos = carro->deslocamentos;
-		while(aux != NULL){
+		while(aux > 0){
 			aux->deslocamentos++;
 			aux = aux->prev;	
 		}
@@ -227,9 +227,9 @@ void destroiEstacionamentoeEspera(Estacionamento *est, Estacionamento *espera){
         }else{
             carro->next->prev=NULL;
         }
-        printf("\nRemovido: %i - Size estacionamento:%i", carro->placa,est->size);
-        free(carro);
+		free(carro);
         est->size--;
+        printf("\nRemovido: %i - Size estacionamento:%i", carro->placa,est->size);
     }
     
     while(espera->size != 0){
@@ -240,9 +240,9 @@ void destroiEstacionamentoeEspera(Estacionamento *est, Estacionamento *espera){
         }else{
             carro->next->prev=NULL;
         }
-        printf("Removido:%i - Size espera:%i", carro->placa, espera->size);
-        free(carro);
+		free(carro);
         espera->size--;
+        printf("Removido:%i - Size espera:%i", carro->placa, espera->size);
     }    
     free(est);
     free(espera);
