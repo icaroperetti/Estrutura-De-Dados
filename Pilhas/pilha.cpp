@@ -32,6 +32,7 @@ int main(){
     push(pilha,50);
     push(pilha,60);
     push(pilha,70);
+    pop(pilha);
     imprimePilha(pilha);
 
 }
@@ -70,7 +71,7 @@ void push(Pilha* pilha,int dado){
 }
 
 int pop(Pilha* pilha){
-   
+    pilha->head = pilha->head->next;
 }
 
 void imprimePilha(Pilha* pilha){
