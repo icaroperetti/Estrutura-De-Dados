@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#define STACKSIZE 5
+
 
 typedef struct sElemento{ 
     struct sElemento *next;
@@ -20,11 +20,12 @@ Elemento* criaElemento(int dado);
 void push(Pilha* pilha,int dado);
 void imprimePilha(Pilha* pilha);
 bool isEmpty(Pilha* pilha);
-int pop(Pilha* pilha);
+void pop(Pilha* pilha);
+void destroiPilha(Pilha* pilha);
 
 int main(){
     Pilha* pilha = criaPilha();
-    int removido,removido1;
+
     push(pilha,10);
     push(pilha,20);
     push(pilha,30);
@@ -32,9 +33,24 @@ int main(){
     push(pilha,50);
     push(pilha,60);
     push(pilha,70);
-    pop(pilha);
+
     imprimePilha(pilha);
 
+    pop(pilha);
+    pop(pilha);
+    pop(pilha);
+    imprimePilha(pilha);
+    
+    destroiPilha(pilha);
+    imprimePilha(pilha);
+}
+
+void destroiPilha(Pilha* pilha){
+    printf("DESTRUINDO\n");
+    while(pilha->size > 0){
+        pop(pilha);
+    }
+    pilha->size--;
 }
 
 Pilha* criaPilha(){
@@ -60,28 +76,37 @@ Elemento* criaElemento(int dado){
 
 void push(Pilha* pilha,int dado){
     Elemento *novo = criaElemento(dado);
-    if(pilha->size >= STACKSIZE){
-        printf("Pilha cheia, elemento %i nao inserido\n",novo->dado);
-    }else{
-        novo->next = pilha->head;
-        pilha->head = novo;
-        printf("Inserido:%i\n",novo->dado);
-    }
+    novo->next = pilha->head;
+    pilha->head = novo;
+    printf("Inserido:%i\n",novo->dado);
     pilha->size++;
 }
 
-int pop(Pilha* pilha){
-    pilha->head = pilha->head->next;
+void pop(Pilha *pilha) {
+    Elemento* remove;
+    remove = pilha->head;
+    if(remove != NULL){
+        pilha->head = remove->next;
+        remove->next = NULL;
+    }
+    free(remove);
+    pilha->size--;
 }
+
 
 void imprimePilha(Pilha* pilha){
     Elemento *aux = pilha->head;
-    printf("Pilha: ");
-    while(aux != NULL){
-        printf("%i ",aux->dado);
-        aux = aux->next;
+    if (pilha->size < 0){
+        printf("A pilha esta vazia!");
     }
-    printf("\n");
+    else{
+        printf("Pilha: ");
+        while (aux != NULL){
+            printf("%i ", aux->dado);
+            aux = aux->next;
+        }
+        printf("\n");
+    }
 }
 
 bool isEmpty(Pilha* pilha){
