@@ -37,6 +37,7 @@ int main(){
     imprimePilha(pilha);
 
     pop(pilha);
+    printf("Size:%i\n",pilha->size);
     pop(pilha);
     pop(pilha);
     imprimePilha(pilha);
@@ -51,6 +52,7 @@ void destroiPilha(Pilha* pilha){
         pop(pilha);
     }
     pilha->size--;
+    free(pilha);
 }
 
 Pilha* criaPilha(){
@@ -89,8 +91,8 @@ void pop(Pilha *pilha) {
         pilha->head = remove->next;
         remove->next = NULL;
     }
-    free(remove);
     pilha->size--;
+    free(remove);   
 }
 
 
