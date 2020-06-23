@@ -28,6 +28,10 @@ int main(){
     push(pilha,10);
     push(pilha,20);
     push(pilha,30);
+    push(pilha,40);
+    push(pilha,50);
+    push(pilha,60);
+    push(pilha,70);
     imprimePilha(pilha);
 
 }
@@ -56,7 +60,7 @@ Elemento* criaElemento(int dado){
 void push(Pilha* pilha,int dado){
     Elemento *novo = criaElemento(dado);
     if(pilha->size >= STACKSIZE){
-        printf("Pilha cheia\n");
+        printf("Pilha cheia, elemento %i nao inserido\n",novo->dado);
     }else{
         novo->next = pilha->head;
         pilha->head = novo;
