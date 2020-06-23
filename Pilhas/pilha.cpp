@@ -40,8 +40,7 @@ int main(){
 
     pop(pilha);
     printf("Size:%i\n",pilha->size);
-    pop(pilha);
-    pop(pilha);
+    
     imprimePilha(pilha);
     
     destroiPilha(pilha);
