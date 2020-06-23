@@ -20,12 +20,12 @@ Elemento* criaElemento(int dado);
 void push(Pilha* pilha,int dado);
 void imprimePilha(Pilha* pilha);
 bool isEmpty(Pilha* pilha);
-void pop(Pilha* pilha);
+int pop(Pilha* pilha);
 void destroiPilha(Pilha* pilha);
-
+Elemento* stacktop(Pilha* pilha);
 int main(){
     Pilha* pilha = criaPilha();
-
+    Elemento* top;
     push(pilha,10);
     push(pilha,20);
     push(pilha,30);
@@ -33,7 +33,8 @@ int main(){
     push(pilha,50);
     push(pilha,60);
     push(pilha,70);
-
+    top = stacktop(pilha);
+    printf("Top:%i\n",top->dado);
     imprimePilha(pilha);
 
     pop(pilha);
@@ -48,11 +49,17 @@ int main(){
 
 void destroiPilha(Pilha* pilha){
     printf("DESTRUINDO\n");
-    while(pilha->size > 0){
+    while(pilha->size != 0){
         pop(pilha);
     }
     pilha->size--;
     free(pilha);
+}
+
+Elemento* stacktop(Pilha* pilha){
+    Elemento* top;
+    top = pilha->head;
+    return top;
 }
 
 Pilha* criaPilha(){
@@ -84,12 +91,15 @@ void push(Pilha* pilha,int dado){
     pilha->size++;
 }
 
-void pop(Pilha *pilha) {
+int pop(Pilha *pilha) {
     Elemento* remove;
-    remove = pilha->head;
+    remove = stacktop(pilha);
     if(remove != NULL){
         pilha->head = remove->next;
         remove->next = NULL;
+        
+    }else{
+        printf("Pilha vazia");
     }
     pilha->size--;
     free(remove);   
