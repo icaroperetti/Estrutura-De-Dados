@@ -27,7 +27,7 @@ void destructStack(Stack* stack);
 int main(){
 
    Stack* stack = newStack();
-   char exp[TAM]= "(A + B})";
+   char exp[TAM]= "(A + B)-{C + D}-[F+ G]";
    printf("Expressao inserida:%s",exp);
    isBalanced(stack,exp);
    destructStack(stack);
@@ -143,8 +143,11 @@ Elemento* createElement(char dado){
 
 void push(Stack* stack,char dado){
     Elemento* novo = createElement(dado);
-    novo->next = stack->head;
-    stack->head = novo;
+    if(stack->head == 0){
+        stack->head = novo;
+    }else{
+        novo->next = stack->head;
+    }
     stack->size++;
 }
 
