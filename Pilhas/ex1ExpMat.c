@@ -20,28 +20,40 @@ Elemento* createElement(char);
 void push(Stack* stack,char);
 char pop(Stack* stack);
 char stacktop(Stack* stack);
-void imprimePilha(Stack* stack);
+void displayStack(Stack* stack);
 void isBalanced(Stack*, char exp[]);
-
+void destructStack(Stack* stack);
 int main(){
    Stack* stack = newStack();
     //char exp[TAM]= "7+ {A} +- (B{CCCC}) {([M]T)U} ([{";
     //char exp[TAM]= "(A + B} )";
-    //char exp[TAM]= "{[A + B] - [(C - D)]";
-    char exp[TAM]= "(A + B)-{C + D}-[F+ G]";
+    char exp[TAM]= "{[A + B] - [(C - D)]";
+    //char exp[TAM]= "(A + B)-{C + D}-[F+ G]";
     //char exp[TAM]= "((H) * {([J + K])})";
     //char EXP[TAM]= "(((A))))";
    printf("%s\n",exp);
    isBalanced(stack,exp);
+   displayStack(stack);
+   destructStack(stack);
 }
 
-void imprimePilha(Stack* stack){
+void destructStack(Stack* stack){
+    int i;
+    printf("\nDestruindo!\n");
+    while(stack->size != 0){
+        pop(stack);
+    }
+    printf("Size:%i\n",stack->size);
+    free(stack);
+}
+
+void displayStack(Stack* stack){
     Elemento *aux = stack->head;
     if (stack->size < 0){
         printf("A stack esta vazia!");
     }
     else{
-        printf("Pilha: ");
+        printf("Elementos na pilha: ");
         while (aux != NULL){
             printf("%c", aux->dado);
             aux = aux->next;
@@ -114,10 +126,10 @@ void isBalanced(Stack* stack,char exp[]){
             break;
         }
     }
-    if(stack->size==0){
-        printf("\nExpressao valida!");
+    if(stack->size == 0){
+        printf("\nExpressao valida!\n");
     } else{
-        printf("\nExpressao invalida!");
+        printf("\nExpressao invalida!\n");
     }
 
 }
@@ -138,6 +150,7 @@ void push(Stack* stack,char dado){
     Elemento* novo = createElement(dado);
     novo->next = stack->head;
     stack->head = novo;
+    printf("Inserido:%c\n",stack->head->dado);
     stack->size++;
 }
 
@@ -154,6 +167,7 @@ char pop(Stack* stack){
     dado = remove->dado;
     free(remove);
     stack->size--;
+    printf("Excluido:%c\n",dado);
 	return dado;
 }
 
