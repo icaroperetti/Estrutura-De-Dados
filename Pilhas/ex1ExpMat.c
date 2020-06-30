@@ -21,38 +21,32 @@ void push(Stack* stack,char);
 char pop(Stack* stack);
 char stacktop(Stack* stack);
 void imprimePilha(Stack* stack);
-void isBalanced(Stack*,char exp[]);
-void destructStack(Stack* stack);
+void isBalanced(Stack*, char exp[]);
 
 int main(){
-
    Stack* stack = newStack();
-   char exp[TAM]= "(A + B)-{C + D}-[F+ G]";
-   printf("Expressao inserida:%s",exp);
+    //char exp[TAM]= "7+ {A} +- (B{CCCC}) {([M]T)U} ([{";
+    //char exp[TAM]= "(A + B} )";
+    //char exp[TAM]= "{[A + B] - [(C - D)]";
+    char exp[TAM]= "(A + B)-{C + D}-[F+ G]";
+    //char exp[TAM]= "((H) * {([J + K])})";
+    //char EXP[TAM]= "(((A))))";
+   printf("%s\n",exp);
    isBalanced(stack,exp);
-   destructStack(stack);
-   imprimePilha(stack); 
-
-}
-
-void destructStack(Stack* stack){
-    int i;
-    printf("\nDestruindo!");
-    while(stack->size != 0){
-        pop(stack);
-    }
-    printf("\nSize:%i\n",stack->size);
-    free(stack);
 }
 
 void imprimePilha(Stack* stack){
     Elemento *aux = stack->head;
-    if (stack->size > 0){
-         printf("Pilha: ");
+    if (stack->size < 0){
+        printf("A stack esta vazia!");
+    }
+    else{
+        printf("Pilha: ");
         while (aux != NULL){
-            printf("%s", aux->dado);
+            printf("%c", aux->dado);
             aux = aux->next;
         }
+        printf("\n");
     }
 }
 
@@ -73,7 +67,7 @@ Stack* newStack(){
 void isBalanced(Stack* stack,char exp[]){
     int i;
     char aux;
-    for( i=0; i < TAM ; i++){ 
+    for( i=0; i< TAM ; i++){ 
         switch (exp[i]){
             //Se for abertura, adiciona na pilha
             case '(':
@@ -94,8 +88,8 @@ void isBalanced(Stack* stack,char exp[]){
             if(aux=='('){
                 pop(stack);
             }else{
-                printf("\nExpressao invalida,encerrando o programa");
-        		exit(0);
+                printf("\nExpressao invalida parenteses,encerrando");
+                exit(0);
             }
             break;
 
@@ -104,24 +98,23 @@ void isBalanced(Stack* stack,char exp[]){
             if(aux=='['){
                 pop(stack);
             }else{
-                printf("\nExpressao invalida,encerrando o programa");
-            	exit(0);
+                printf("\nExpressao invalida colchetes,encerrando");
+                exit(0);
             }
             break;
 
             case '}':
-            aux = stacktop(stack);
-            if(aux =='{'){
+            aux= stacktop(stack);
+            if(aux=='{'){
                 pop(stack);
             } else{
-                printf("\nExpressao invalida,encerrando o programa");
+                printf("\nExpressao invalida chaves,encerrando");
                 exit(0);
             }
             break;
         }
     }
-    
-    if(stack->size == 0){
+    if(stack->size==0){
         printf("\nExpressao valida!");
     } else{
         printf("\nExpressao invalida!");
@@ -143,11 +136,8 @@ Elemento* createElement(char dado){
 
 void push(Stack* stack,char dado){
     Elemento* novo = createElement(dado);
-    if(stack->head == 0){
-        stack->head = novo;
-    }else{
-        novo->next = stack->head;
-    }
+    novo->next = stack->head;
+    stack->head = novo;
     stack->size++;
 }
 
@@ -172,5 +162,8 @@ char stacktop(Stack* stack){
     if(stack->size != 0){
         top = stack->head->dado;
          return top;
-    }
+    }else{
+    	printf("A pilha esta vazia, erro de underflow");
+    	exit(0); 
+	}
 }
